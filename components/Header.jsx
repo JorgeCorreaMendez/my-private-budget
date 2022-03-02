@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingTop: "15%",
     paddingBottom: "5%",
+    width: "100%"
   },
 
   titleHeader: {
