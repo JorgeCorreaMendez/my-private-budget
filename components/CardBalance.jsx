@@ -1,11 +1,21 @@
 import { View, Text, StyleSheet } from "react-native";
 
 const CardBalance = ({ numberAccount, actualBalance, lastBalance }) => {
+  let colorBalance;
+
+  if (actualBalance < 0) {
+    colorBalance = "red";
+  } else {
+    colorBalance = "black";
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.carTitle}>Cuenta *{numberAccount}</Text>
       <View style={styles.balanceData}>
-        <Text style={{ fontSize: 20 }}>{actualBalance}€</Text>
+        <Text style={{ fontSize: 20, color: colorBalance }}>
+          {actualBalance}€
+        </Text>
         <Text style={{ fontSize: 20 }}>{lastBalance}€</Text>
       </View>
       <View style={styles.balanceData}>
