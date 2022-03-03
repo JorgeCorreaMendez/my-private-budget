@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import CardBalance from "../components/CardBalance";
 import Colors from "../constants/color";
 
@@ -12,8 +12,12 @@ const BudgetHomeScreen = ({ numberAccount }) => {
       />
 
       <View style={styles.optionBalance}>
-        <Text>helo</Text>
-        <Text>helo</Text>
+        <TouchableOpacity>
+          <Text style={{ color: "white" }}>Añadir movimientos</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={{ width: "100%", paddingLeft: 15 }}>
+        <Text style={{ fontWeight: "bold" }}>Movimientos</Text>
       </View>
     </View>
   );
@@ -30,6 +34,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     height: "20%",
+    marginBottom: "5%",
   },
 });
 
