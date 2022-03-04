@@ -6,13 +6,15 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import Header from "../components/Header";
 import Movement from "../components/movements/Movement";
 import CardBalance from "../components/CardBalance";
 import Colors from "../constants/color";
 
-const BudgetHomeScreen = ({ numberAccount }) => {
+const BudgetHomeScreen = ({ numberAccount, changeScreens }) => {
   return (
     <View style={styles.container}>
+      <Header title="MyBudget" />
       <CardBalance
         numberAccount={numberAccount}
         actualBalance={-10.05}
@@ -20,11 +22,11 @@ const BudgetHomeScreen = ({ numberAccount }) => {
       />
 
       <View style={styles.optionBalance}>
-        <TouchableOpacity style={{ alignItems: "center" }}>
+        <TouchableOpacity style={{ alignItems: "center" }} onPress={() => changeScreens("add")}>
           <Ionicons name="add-circle-outline" size={32} color="white" />
           <Text style={{ color: "white" }}>Añadir movimientos</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{ alignItems: "center" }}>
+        <TouchableOpacity style={{ alignItems: "center" }} onPress={() => changeScreens("reset")}>
           <Ionicons name="reload-circle-outline" size={32} color="white" />
           <Text style={{ color: "white" }}>Reiniciar Cuenta</Text>
         </TouchableOpacity>
