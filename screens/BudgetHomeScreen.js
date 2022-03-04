@@ -24,6 +24,10 @@ const BudgetHomeScreen = ({ numberAccount }) => {
           <Ionicons name="add-circle-outline" size={32} color="white" />
           <Text style={{ color: "white" }}>Añadir movimientos</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={{ alignItems: "center" }}>
+          <Ionicons name="reload-circle-outline" size={32} color="white" />
+          <Text style={{ color: "white" }}>Reiniciar Cuenta</Text>
+        </TouchableOpacity>
       </View>
       <View style={{ width: "100%", padding: 10 }}>
         <Text style={{ fontWeight: "bold" }}>MOVIMIENTOS</Text>
