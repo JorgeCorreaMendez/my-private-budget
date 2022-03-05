@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     height: 40,
     borderLeftWidth: 1,
+    maxWidth: "85%"
   },
 });
 export default Input;
