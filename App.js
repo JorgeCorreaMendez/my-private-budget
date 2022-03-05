@@ -1,44 +1,73 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import BudgetHomeScreen from "./screens/BudgetHomeScreen";
 import AddMovementsScreen from "./screens/AddMovementsScreen";
 
 export default function App() {
+  const [numberAccount] = useState(parseInt(Math.random() * 9000) + 1000);
   const [screen, setScreen] = useState("home");
   const [balance, setBalance] = useState(0);
-  const [lastMovement, setLastMovement] = useState(0);
-  const [listMovements, setListMovements] = useState([]);
-  const numberAccount = parseInt(Math.random() * 9000) + 1000;
+  const [lastMoviment, setLastMovement] = useState(0);
+  const [listMoviments, setListMovements] = useState([]);
+  const [editMoviment, setEditMoviment] = useState({});
+
+  useEffect(() => {
+    setBalance(
+      listMoviments
+        .map((item) => item.matter)
+        .reduce((prev, curr) => parseFloat(prev) + parseFloat(curr))
+    );
+  });
 
   const addToListMovements = (moviment) => {
-    setListMovements((currentMovements) => [
-      ...currentMovements,
-      {
-        key: Math.random().toString(),
-        description: moviment.description,
-        matter: moviment.matter,
-        date: moviment.date,
-      },
-    ]);
+    console.log(editMoviment.key);
+    if (editMoviment.key === undefined) {
+      setListMovements((currentMovements) => [
+        ...currentMovements,
+        {
+          key: Math.random().toString(),
+          description: moviment.description,
+          matter: moviment.matter,
+          date: moviment.date,
+        },
+      ]);
 
-    setBalance(parseFloat(balance) + parseFloat(moviment.matter).toFixed(2));
-    setLastMovement(parseFloat(moviment.matter).toFixed(2));
+      setLastMovement(parseFloat(moviment.matter).toFixed(2));
+    } else {
+      setListMovements((currentList) => currentList.splice(-1, 1, moviment));
+    }
+
+    setEditMoviment({});
   };
 
-  const deleteMovement = (moviment) => {
+  const onEditMoviment = (moviment) => {
+    setEditMoviment(moviment);
+    setScreen("add");
+  };
+
+  const deleteMoviment = (moviment) => {
     setListMovements(
-      listMovements.filter((actualMovement) => actualMovement !== moviment)
+      listMoviments.filter((actualMovement) => actualMovement !== moviment)
     );
+
+    setBalance(parseFloat(balance) - parseFloat(moviment.matter).toFixed(2));
+  };
+
+  const reset = () => {
+    setBalance(0);
+    setListMovements([]);
   };
 
   let content = (
     <BudgetHomeScreen
       numberAccount={numberAccount}
+      restart={reset}
       changeScreens={setScreen}
-      listMovements={listMovements}
+      listMovements={listMoviments}
       actualBalance={balance}
-      lastMoviment={lastMovement}
-      deleteMovement={deleteMovement}
+      lastMoviment={lastMoviment}
+      deleteMoviment={deleteMoviment}
+      editMoviment={onEditMoviment}
     />
   );
 
@@ -49,6 +78,7 @@ export default function App() {
         balance={balance}
         changeScreens={setScreen}
         addMovements={addToListMovements}
+        value={editMoviment}
       />
     );
 
