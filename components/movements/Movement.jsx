@@ -1,12 +1,12 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Swipeable } from "react-native-gesture-handler";
 import Colors from "../../constants/color";
 
-const Movement = ({ description, date, movement }) => {
+const Movement = ({ item, dropMoviment }) => {
   const leftActions = () => {
     return (
-      <View
+      <TouchableOpacity
         style={{
           backgroundColor: "yellow",
           justifyContent: "center",
@@ -15,22 +15,23 @@ const Movement = ({ description, date, movement }) => {
         }}
       >
         <Ionicons name="pencil" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
     );
   };
 
   const rightActions = () => {
     return (
-      <View
+      <TouchableOpacity
         style={{
           backgroundColor: "red",
           justifyContent: "center",
           alignContent: "center",
           paddingHorizontal: 10,
         }}
+        onPress={() => dropMoviment(item)}
       >
         <Ionicons name="trash" size={30} color="white" />
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -41,10 +42,10 @@ const Movement = ({ description, date, movement }) => {
     >
       <View style={styles.containerMovement}>
         <Text style={styles.description} numberOfLines={3}>
-          {description}
+          {item.description}
         </Text>
-        <Text>{date}</Text>
-        <Text style={styles.movement}>+{movement}€</Text>
+        <Text>{item.date}</Text>
+        <Text style={styles.movement}>+{item.matter}€</Text>
       </View>
     </Swipeable>
   );

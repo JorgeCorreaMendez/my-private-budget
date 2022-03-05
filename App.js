@@ -5,6 +5,8 @@ import AddMovementsScreen from "./screens/AddMovementsScreen";
 
 export default function App() {
   const [screen, setScreen] = useState("home");
+  const [balance, setBalance] = useState(0);
+  const [lastMovement, setLastMovement] = useState(0);
   const [listMovements, setListMovements] = useState([]);
   const numberAccount = parseInt(Math.random() * 9000) + 1000;
 
@@ -18,18 +20,33 @@ export default function App() {
         date: moviment.date,
       },
     ]);
+
+    setBalance(parseFloat(balance) + parseFloat(moviment.matter).toFixed(2));
+    setLastMovement(parseFloat(moviment.matter).toFixed(2));
   };
 
-  
+  const deleteMovement = (moviment) => {
+    setListMovements(
+      listMovements.filter((actualMovement) => actualMovement !== moviment)
+    );
+  };
+
   let content = (
-    <BudgetHomeScreen numberAccount={numberAccount} changeScreens={setScreen} />
+    <BudgetHomeScreen
+      numberAccount={numberAccount}
+      changeScreens={setScreen}
+      listMovements={listMovements}
+      actualBalance={balance}
+      lastMoviment={lastMovement}
+      deleteMovement={deleteMovement}
+    />
   );
 
   if (screen === "add")
     content = (
       <AddMovementsScreen
         numberAccount={numberAccount}
-        balance={-10}
+        balance={balance}
         changeScreens={setScreen}
         addMovements={addToListMovements}
       />
