@@ -8,13 +8,14 @@ import Input from "../components/TextInput/Input";
 
 const AddMovementsScreen = ({
   numberAccount,
+  value,
   balance,
   addMovements,
   changeScreens,
 }) => {
-  const [description, setDescriptionr] = useState("");
-  const [matter, setMatter] = useState("");
-  const [date, setDate] = useState("");
+  const [description, setDescriptionr] = useState(value.description);
+  const [matter, setMatter] = useState(value.matter);
+  const [date, setDate] = useState(value.date);
 
   const descriptionInputHandler = (inputText) => {
     setDescriptionr(inputText);
@@ -41,9 +42,14 @@ const AddMovementsScreen = ({
         { text: "Continuar", style: "default" },
       ]);
     } else {
-      if (typeMatter === "remove") setMatter(matter * -1);
+      let negativeMatter = matter * -1;
+      console.log(negativeMatter);
+      if (typeMatter === "remove") {
+        setMatter(negativeMatter);
+      }
 
-      addMovements({ description, matter, date });
+      const key = value.key;
+      addMovements({ key, description, matter, date });
       changeScreens("home");
     }
   };
@@ -73,7 +79,7 @@ const AddMovementsScreen = ({
           styleContainer={{ width: "90%" }}
           placeholder="Importe"
           iconName="cash"
-          keyboardType="decimal-pad"
+          keyboardType="numeric"
           value={matter}
           InputHandler={matterInputHandler}
         />

@@ -1,7 +1,7 @@
-import { FlatList, Text, View, StyleSheet } from "react-native";
-import Movement from "./Movement";
+import { FlatList, Text, View } from "react-native";
+import Movement from "./Moviment";
 
-const MovementList = ({ list, dropMoviment }) => {
+const MovementList = ({ list, dropMoviment, editMoviment }) => {
   return (
     <View>
       {list && list.length ? (
@@ -9,7 +9,11 @@ const MovementList = ({ list, dropMoviment }) => {
           data={list}
           renderItem={(itemData) => {
             return (
-              <Movement item={itemData.item} dropMoviment={dropMoviment} />
+              <Movement
+                item={itemData.item}
+                dropMoviment={dropMoviment}
+                editMoviment={editMoviment}
+              />
             );
           }}
         />
@@ -21,7 +25,5 @@ const MovementList = ({ list, dropMoviment }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default MovementList;
