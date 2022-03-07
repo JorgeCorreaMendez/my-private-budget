@@ -35,7 +35,14 @@ export default function App() {
 
       setLastMovement(parseFloat(moviment.matter).toFixed(2));
     } else {
-      setListMovements((currentList) => currentList.splice(-1, 1, moviment));
+      let movementIndex = listMoviments
+        .map((actualMovemen) => actualMovemen.key)
+        .indexOf(moviment.key);
+
+      const newListMovement = [...listMoviments];
+      newListMovement[movementIndex] = moviment;
+
+      setListMovements(newListMovement);
     }
 
     setEditMoviment({});

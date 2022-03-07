@@ -14,15 +14,16 @@ const AddMovementsScreen = ({
   changeScreens,
 }) => {
   const [description, setDescriptionr] = useState(value.description);
-  const [matter, setMatter] = useState(value.matter);
+  const [matter, setMatter] = useState(value.matter.toString());
   const [date, setDate] = useState(value.date);
 
+  console.log(value.matter);
   const descriptionInputHandler = (inputText) => {
     setDescriptionr(inputText);
   };
 
   const matterInputHandler = (inputText) => {
-    setMatter(inputText.replace(/[^\d.]/g, ""));
+    setMatter(inputText);
   };
 
   const dateInputHandler = (inputText) => {
@@ -32,7 +33,13 @@ const AddMovementsScreen = ({
   const newMovement = (typeMatter) => {
     setMatter(parseFloat(matter));
 
-    if (isNaN(matter) || date === undefined || description === undefined) {
+    if (
+      isNaN(matter) ||
+      date === undefined ||
+      date === "" ||
+      description === undefined ||
+      description === ""
+    ) {
       Alert.alert("Error", "Debe introducir todos los campos correctamente", [
         {
           text: "Volver al Home",
@@ -44,10 +51,11 @@ const AddMovementsScreen = ({
     } else {
       const key = value.key;
       if (typeMatter === "remove") {
-        let negativeMatter = matter * -1;
-        addMovements({ key, description, matter: negativeMatter, date });
+        let newMatter = -Math.abs(matter);
+        addMovements({ key, description, matter: newMatter, date });
       } else {
-        addMovements({ key, description, matter, date });
+        let newMatter = Math.abs(matter);
+        addMovements({ key, description, matter: newMatter, date });
       }
 
       changeScreens("home");
