@@ -42,16 +42,14 @@ const AddMovementsScreen = ({
         { text: "Continuar", style: "default" },
       ]);
     } else {
-      let negativeMatter = matter * -1;
-      console.log(negativeMatter);
-
+      const key = value.key;
       if (typeMatter === "remove") {
-        setMatter(negativeMatter);
-        console.log(matter);
+        let negativeMatter = matter * -1;
+        addMovements({ key, description, matter: negativeMatter, date });
+      } else {
+        addMovements({ key, description, matter, date });
       }
 
-      const key = value.key;
-      addMovements({ key, description, matter, date });
       changeScreens("home");
     }
   };
@@ -94,16 +92,16 @@ const AddMovementsScreen = ({
       </View>
 
       <View style={styles.buttonsAccions}>
-        <TouchableOpacity onPress={() => newMovement("add")}>
+        <TouchableOpacity onPress={() => newMovement("remove")}>
           <Ionicons
-            name="add-circle-sharp"
+            name="remove-circle-sharp"
             size={100}
             color={Colors.secundary}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => newMovement("remove")}>
+        <TouchableOpacity onPress={() => newMovement("add")}>
           <Ionicons
-            name="remove-circle-sharp"
+            name="add-circle-sharp"
             size={100}
             color={Colors.secundary}
           />

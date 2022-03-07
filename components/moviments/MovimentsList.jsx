@@ -3,7 +3,7 @@ import Movement from "./Moviment";
 
 const MovementList = ({ list, dropMoviment, editMoviment }) => {
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       {list && list.length ? (
         <FlatList
           data={list}

@@ -46,11 +46,11 @@ const styles = StyleSheet.create({
   containerMovement: {
     borderBottomColor: "#E3D8D9",
     borderBottomWidth: 1,
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-around",
-    width: "95%",
-    paddingVertical: "5%",
     alignItems: "center",
+    paddingVertical: "5%",
   },
   description: {
     color: Colors.secundary,
