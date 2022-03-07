@@ -12,15 +12,16 @@ export default function App() {
   const [editMoviment, setEditMoviment] = useState({});
 
   useEffect(() => {
-    setBalance(
-      listMoviments
-        .map((item) => item.matter)
-        .reduce((prev, curr) => parseFloat(prev) + parseFloat(curr))
-    );
+    if (listMoviments.length !== 0) {
+      setBalance(
+        listMoviments
+          .map((item) => item.matter)
+          .reduce((prev, curr) => parseFloat(prev) + parseFloat(curr))
+      );
+    }
   });
 
   const addToListMovements = (moviment) => {
-    console.log(editMoviment.key);
     if (editMoviment.key === undefined) {
       setListMovements((currentMovements) => [
         ...currentMovements,

@@ -32,7 +32,7 @@ const AddMovementsScreen = ({
   const newMovement = (typeMatter) => {
     setMatter(parseFloat(matter));
 
-    if (isNaN(matter) || date === "" || description === "") {
+    if (isNaN(matter) || date === undefined || description === undefined) {
       Alert.alert("Error", "Debe introducir todos los campos correctamente", [
         {
           text: "Volver al Home",
@@ -44,8 +44,10 @@ const AddMovementsScreen = ({
     } else {
       let negativeMatter = matter * -1;
       console.log(negativeMatter);
+
       if (typeMatter === "remove") {
         setMatter(negativeMatter);
+        console.log(matter);
       }
 
       const key = value.key;
