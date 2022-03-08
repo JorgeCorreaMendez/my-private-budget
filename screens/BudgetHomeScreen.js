@@ -3,17 +3,17 @@ import { Ionicons } from "@expo/vector-icons";
 import Header from "../components/Header";
 import CardBalance from "../components/CardBalance";
 import Colors from "../constants/color";
-import MovementList from "../components/moviments/MovimentsList";
+import MovementList from "../components/movements/MovementsList";
 
 const BudgetHomeScreen = ({
   numberAccount,
   changeScreens,
   restart,
   actualBalance,
-  lastMoviment,
+  lastMovement,
   listMovements,
-  deleteMoviment,
-  editMoviment,
+  deleteMovement,
+  editMovement,
 }) => {
   return (
     <View style={styles.container}>
@@ -21,7 +21,7 @@ const BudgetHomeScreen = ({
       <CardBalance
         numberAccount={numberAccount}
         actualBalance={actualBalance}
-        lastBalance={lastMoviment}
+        lastBalance={lastMovement}
       />
 
       <View style={{ width: "100%", padding: 10 }}>
@@ -30,8 +30,8 @@ const BudgetHomeScreen = ({
 
       <MovementList
         list={listMovements}
-        dropMoviment={deleteMoviment}
-        editMoviment={editMoviment}
+        dropMovement={deleteMovement}
+        editMovement={editMovement}
       />
 
       <View style={styles.optionBalance}>

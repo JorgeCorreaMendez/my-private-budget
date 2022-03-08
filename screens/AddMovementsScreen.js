@@ -13,17 +13,18 @@ const AddMovementsScreen = ({
   addMovements,
   changeScreens,
 }) => {
+  if (value.matter === undefined) value.matter = "";
+
   const [description, setDescriptionr] = useState(value.description);
   const [matter, setMatter] = useState(value.matter.toString());
   const [date, setDate] = useState(value.date);
 
-  console.log(value.matter);
   const descriptionInputHandler = (inputText) => {
     setDescriptionr(inputText);
   };
 
   const matterInputHandler = (inputText) => {
-    setMatter(inputText);
+    setMatter(inputText.replace(/[D.\-]/g, ""));
   };
 
   const dateInputHandler = (inputText) => {
