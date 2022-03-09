@@ -7,50 +7,58 @@ export default function App() {
   const [numberAccount] = useState(parseInt(Math.random() * 9000) + 1000);
   const [screen, setScreen] = useState("home");
   const [balance, setBalance] = useState(0);
-  const [lastMoviment, setLastMovement] = useState(0);
-  const [listMoviments, setListMovements] = useState([]);
-  const [editMoviment, setEditMoviment] = useState({});
+  const [lastMovement, setLastMovement] = useState(0);
+  const [listMovements, setListMovements] = useState([]);
+  const [editMovement, setEditMovement] = useState({});
 
   useEffect(() => {
-    setBalance(
-      listMoviments
-        .map((item) => item.matter)
-        .reduce((prev, curr) => parseFloat(prev) + parseFloat(curr))
-    );
-  });
+    if (listMovements.length !== 0) {
+      setBalance(
+        listMovements
+          .map((item) => item.matter)
+          .reduce((prev, curr) => parseFloat(prev) + parseFloat(curr))
+      );
+    }
+  }, [listMovements]);
 
-  const addToListMovements = (moviment) => {
-    console.log(editMoviment.key);
-    if (editMoviment.key === undefined) {
+  const addToListMovements = (movement) => {
+    if (editMovement.key === undefined) {
       setListMovements((currentMovements) => [
         ...currentMovements,
         {
           key: Math.random().toString(),
-          description: moviment.description,
-          matter: moviment.matter,
-          date: moviment.date,
+          description: movement.description,
+          matter: movement.matter,
+          date: movement.date,
         },
       ]);
 
-      setLastMovement(parseFloat(moviment.matter).toFixed(2));
+      setLastMovement(parseFloat(movement.matter).toFixed(2));
     } else {
-      setListMovements((currentList) => currentList.splice(-1, 1, moviment));
+      let movementIndex = listMovements
+        .map((actualMovemen) => actualMovemen.key)
+        .indexOf(movement.key);
+
+      const newListMovement = [...listMovements];
+      newListMovement[movementIndex] = movement;
+
+      setListMovements(newListMovement);
     }
 
-    setEditMoviment({});
+    setEditMovement({});
   };
 
-  const onEditMoviment = (moviment) => {
-    setEditMoviment(moviment);
+  const onEditMovement = (movement) => {
+    setEditMovement(movement);
     setScreen("add");
   };
 
-  const deleteMoviment = (moviment) => {
+  const deleteMovement = (movement) => {
     setListMovements(
-      listMoviments.filter((actualMovement) => actualMovement !== moviment)
+      listMovements.filter((actualMovement) => actualMovement !== movement)
     );
 
-    setBalance(parseFloat(balance) - parseFloat(moviment.matter).toFixed(2));
+    setBalance(parseFloat(balance) - parseFloat(movement.matter).toFixed(2));
   };
 
   const reset = () => {
@@ -63,11 +71,11 @@ export default function App() {
       numberAccount={numberAccount}
       restart={reset}
       changeScreens={setScreen}
-      listMovements={listMoviments}
+      listMovements={listMovements}
       actualBalance={balance}
-      lastMoviment={lastMoviment}
-      deleteMoviment={deleteMoviment}
-      editMoviment={onEditMoviment}
+      lastMovement={lastMovement}
+      deleteMovement={deleteMovement}
+      editMovement={onEditMovement}
     />
   );
 
@@ -78,7 +86,7 @@ export default function App() {
         balance={balance}
         changeScreens={setScreen}
         addMovements={addToListMovements}
-        value={editMoviment}
+        value={editMovement}
       />
     );
 

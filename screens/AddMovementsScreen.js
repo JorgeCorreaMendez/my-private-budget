@@ -13,16 +13,18 @@ const AddMovementsScreen = ({
   addMovements,
   changeScreens,
 }) => {
-  const [description, setDescriptionr] = useState(value.description);
+  if (value.matter === undefined) value.matter = "";
+
+  const [description, setDescription] = useState(value.description);
   const [matter, setMatter] = useState(value.matter);
-  const [date, setDate] = useState(value.date);
+  const [date, setDate] = useState(value.date || Date.now);
 
   const descriptionInputHandler = (inputText) => {
-    setDescriptionr(inputText);
+    setDescription(inputText);
   };
 
   const matterInputHandler = (inputText) => {
-    setMatter(inputText.replace(/[^\d.]/g, ""));
+    setMatter(inputText.replace(/[^\d.&-]/g, ""));
   };
 
   const dateInputHandler = (inputText) => {
@@ -32,7 +34,14 @@ const AddMovementsScreen = ({
   const newMovement = (typeMatter) => {
     setMatter(parseFloat(matter));
 
-    if (isNaN(matter) || date === "" || description === "") {
+    if (
+      isNaN(matter) ||
+      matter > 1000000 ||
+      date === undefined ||
+      date === "" ||
+      description === undefined ||
+      description === ""
+    ) {
       Alert.alert("Error", "Debe introducir todos los campos correctamente", [
         {
           text: "Volver al Home",
@@ -42,16 +51,19 @@ const AddMovementsScreen = ({
         { text: "Continuar", style: "default" },
       ]);
     } else {
-      let negativeMatter = matter * -1;
-      console.log(negativeMatter);
-      if (typeMatter === "remove") {
-        setMatter(negativeMatter);
-      }
-
       const key = value.key;
-      addMovements({ key, description, matter, date });
+      if (typeMatter === "remove") {
+        setMatter(-Math.abs(matter));
+        addMovements({ key, description, matter, date });
+      } else {
+        setMatter(Math.abs(matter));
+        addMovements({ key, description, matter, date });
+      }
       changeScreens("home");
     }
+
+    setDescription("");
+    setMatter("");
   };
 
   let colorBalance = "black";
@@ -80,7 +92,7 @@ const AddMovementsScreen = ({
           placeholder="Importe"
           iconName="cash"
           keyboardType="numeric"
-          value={matter}
+          value={matter.toString()}
           InputHandler={matterInputHandler}
         />
 
@@ -92,16 +104,16 @@ const AddMovementsScreen = ({
       </View>
 
       <View style={styles.buttonsAccions}>
-        <TouchableOpacity onPress={() => newMovement("add")}>
+        <TouchableOpacity onPress={() => newMovement("remove")}>
           <Ionicons
-            name="add-circle-sharp"
+            name="remove-circle-sharp"
             size={100}
             color={Colors.secundary}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => newMovement("remove")}>
+        <TouchableOpacity onPress={() => newMovement("add")}>
           <Ionicons
-            name="remove-circle-sharp"
+            name="add-circle-sharp"
             size={100}
             color={Colors.secundary}
           />

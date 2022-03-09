@@ -1,9 +1,9 @@
 import { FlatList, Text, View } from "react-native";
-import Movement from "./Moviment";
+import Movement from "./Movement";
 
-const MovementList = ({ list, dropMoviment, editMoviment }) => {
+const MovementList = ({ list, dropMovement, editMovement }) => {
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       {list && list.length ? (
         <FlatList
           data={list}
@@ -11,8 +11,8 @@ const MovementList = ({ list, dropMoviment, editMoviment }) => {
             return (
               <Movement
                 item={itemData.item}
-                dropMoviment={dropMoviment}
-                editMoviment={editMoviment}
+                dropMovement={dropMovement}
+                editMovement={editMovement}
               />
             );
           }}

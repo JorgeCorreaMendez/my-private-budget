@@ -3,17 +3,17 @@ import { Ionicons } from "@expo/vector-icons";
 import Header from "../components/Header";
 import CardBalance from "../components/CardBalance";
 import Colors from "../constants/color";
-import MovementList from "../components/moviments/MovimentsList";
+import MovementList from "../components/movements/MovementsList";
 
 const BudgetHomeScreen = ({
   numberAccount,
   changeScreens,
   restart,
   actualBalance,
-  lastMoviment,
+  lastMovement,
   listMovements,
-  deleteMoviment,
-  editMoviment
+  deleteMovement,
+  editMovement,
 }) => {
   return (
     <View style={styles.container}>
@@ -21,17 +21,20 @@ const BudgetHomeScreen = ({
       <CardBalance
         numberAccount={numberAccount}
         actualBalance={actualBalance}
-        lastBalance={lastMoviment}
+        lastBalance={lastMovement}
+      />
+
+      <View style={{ width: "100%", padding: 10 }}>
+        <Text style={{ fontWeight: "bold" }}>MOVIMIENTOS</Text>
+      </View>
+
+      <MovementList
+        list={listMovements}
+        dropMovement={deleteMovement}
+        editMovement={editMovement}
       />
 
       <View style={styles.optionBalance}>
-        <TouchableOpacity
-          style={{ alignItems: "center" }}
-          onPress={() => changeScreens("add")}
-        >
-          <Ionicons name="add-circle-outline" size={32} color="white" />
-          <Text style={{ color: "white" }}>Añadir movimientos</Text>
-        </TouchableOpacity>
         <TouchableOpacity
           style={{ alignItems: "center" }}
           onPress={() => restart()}
@@ -39,15 +42,15 @@ const BudgetHomeScreen = ({
           <Ionicons name="reload-circle-outline" size={32} color="white" />
           <Text style={{ color: "white" }}>Reiniciar Cuenta</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{ alignItems: "center" }}
+          onPress={() => changeScreens("add")}
+        >
+          <Ionicons name="add-circle-outline" size={32} color="white" />
+          <Text style={{ color: "white" }}>Añadir movimientos</Text>
+        </TouchableOpacity>
       </View>
-      <View style={{ width: "100%", padding: 10 }}>
-        <Text style={{ fontWeight: "bold" }}>MOVIMIENTOS</Text>
-      </View>
-      <MovementList
-        list={listMovements}
-        dropMoviment={deleteMoviment}
-        editMoviment={editMoviment}
-      />
     </View>
   );
 };
@@ -55,6 +58,7 @@ const BudgetHomeScreen = ({
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
+    flex: 1,
   },
   optionBalance: {
     backgroundColor: Colors.secundary,
@@ -62,8 +66,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     width: "100%",
-    height: 80,
-    marginBottom: "5%",
+    paddingVertical: 25,
   },
 });
 

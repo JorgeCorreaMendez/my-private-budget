@@ -3,12 +3,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { Swipeable } from "react-native-gesture-handler";
 import Colors from "../../constants/color";
 
-const Movement = ({ item, dropMoviment, editMoviment }) => {
+const Movement = ({ item, dropMovement, editMovement }) => {
   const leftActions = () => {
     return (
       <TouchableOpacity
         style={{ ...styles.buttonSwipeable, backgroundColor: "yellow" }}
-        onPress={() => editMoviment(item)}
+        onPress={() => editMovement(item)}
       >
         <Ionicons name="pencil" size={30} color="black" />
       </TouchableOpacity>
@@ -19,7 +19,7 @@ const Movement = ({ item, dropMoviment, editMoviment }) => {
     return (
       <TouchableOpacity
         style={{ ...styles.buttonSwipeable, backgroundColor: "red" }}
-        onPress={() => dropMoviment(item)}
+        onPress={() => dropMovement(item)}
       >
         <Ionicons name="trash" size={30} color="white" />
       </TouchableOpacity>
@@ -46,11 +46,11 @@ const styles = StyleSheet.create({
   containerMovement: {
     borderBottomColor: "#E3D8D9",
     borderBottomWidth: 1,
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-around",
-    width: "95%",
-    paddingVertical: "5%",
     alignItems: "center",
+    paddingVertical: "5%",
   },
   description: {
     color: Colors.secundary,
