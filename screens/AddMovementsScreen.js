@@ -15,16 +15,16 @@ const AddMovementsScreen = ({
 }) => {
   if (value.matter === undefined) value.matter = "";
 
-  const [description, setDescriptionr] = useState(value.description);
-  const [matter, setMatter] = useState(value.matter.toString());
-  const [date, setDate] = useState(value.date);
+  const [description, setDescription] = useState(value.description);
+  const [matter, setMatter] = useState(value.matter);
+  const [date, setDate] = useState(value.date || Date.now);
 
   const descriptionInputHandler = (inputText) => {
-    setDescriptionr(inputText);
+    setDescription(inputText);
   };
 
   const matterInputHandler = (inputText) => {
-    setMatter(inputText.replace(/[D.\-]/g, ""));
+    setMatter(inputText.replace(/[^\d.&-]/g, ""));
   };
 
   const dateInputHandler = (inputText) => {
@@ -36,6 +36,7 @@ const AddMovementsScreen = ({
 
     if (
       isNaN(matter) ||
+      matter > 1000000 ||
       date === undefined ||
       date === "" ||
       description === undefined ||
@@ -52,15 +53,17 @@ const AddMovementsScreen = ({
     } else {
       const key = value.key;
       if (typeMatter === "remove") {
-        let newMatter = -Math.abs(matter);
-        addMovements({ key, description, matter: newMatter, date });
+        setMatter(-Math.abs(matter));
+        addMovements({ key, description, matter, date });
       } else {
-        let newMatter = Math.abs(matter);
-        addMovements({ key, description, matter: newMatter, date });
+        setMatter(Math.abs(matter));
+        addMovements({ key, description, matter, date });
       }
-
       changeScreens("home");
     }
+
+    setDescription("");
+    setMatter("");
   };
 
   let colorBalance = "black";
@@ -89,7 +92,7 @@ const AddMovementsScreen = ({
           placeholder="Importe"
           iconName="cash"
           keyboardType="numeric"
-          value={matter}
+          value={matter.toString()}
           InputHandler={matterInputHandler}
         />
 

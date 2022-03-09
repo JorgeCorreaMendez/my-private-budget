@@ -1,52 +1,62 @@
-import { LogBox, View, StyleSheet } from "react-native";
-import { useEffect } from "react";
+import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import DatePicker from "react-native-datepicker";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import {} from "react-native-gesture-handler";
 
 const InputDate = ({ styleContainer, value, InputHandler }) => {
-  // Ignorar warningnuseNativeDriver
-  useEffect(() => {
-    LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
-  }, []);
+  const [date, setDate] = useState(new Date(value || Date.now()));
+  const [show, setShow] = useState(false);
+  const local = "es-ES";
+
+  const onChangeDate = (event, selectedDate) => {
+    const actualData = selectedDate || date;
+
+    setDate(actualData);
+    setShow(false);
+    InputHandler(actualData.toLocaleDateString(local));
+  };
+
+  const androidPickerDate = () => {
+    return (
+      <View style={styles.dateContainerAndroid}>
+        <TouchableOpacity onPress={() => setShow(true)}>
+          <Text>{date.toLocaleDateString(local)}</Text>
+        </TouchableOpacity>
+        {show && (
+          <DateTimePicker
+            testID="dateTimePickerAndroid"
+            style={styles.dateInput}
+            value={date}
+            onChange={onChangeDate}
+          />
+        )}
+      </View>
+    );
+  };
 
   return (
     <View style={{ ...styles.container, ...styleContainer }}>
       <View style={styles.iconContainer}>
         <Ionicons name="calendar" size={25} color="black" />
       </View>
-
-      <DatePicker
-        date={value}
-        style={styles.datePickerStyle}
-        mode="date"
-        placeholder="seleccione una fecha"
-        format="DD/MM/YYYY"
-        minDate="01-01-1900"
-        cancelBtnText="Cancelar"
-        confirmBtnText="Confirmar"
-        showIcon={false}
-        customStyles={customStyles}
-        onDateChange={(newDate) => {
-          InputHandler(newDate);
-        }}
-      />
+      <View style={styles.dateContainer}>
+        {Platform.OS !== "ios" ? (
+          androidPickerDate()
+        ) : (
+          <DateTimePicker
+            testID="dateTimePickerIos"
+            style={styles.dateInput}
+            value={date}
+            locale={local}
+            display="spinner"
+            onChange={onChangeDate}
+          />
+        )}
+      </View>
     </View>
   );
 };
-
-const customStyles = StyleSheet.create({
-  dateInput: {
-    alignItems: "flex-start",
-    paddingHorizontal: 20,
-    borderLeftWidth: 1,
-    borderLeftColor: "black",
-    borderWidth: 0,
-    backgroundColor: "#DBDBDB",
-  },
-  placeholderText: {
-    color: "#AFAFAF",
-  },
-});
 
 const styles = StyleSheet.create({
   container: {
@@ -59,6 +69,26 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     paddingHorizontal: 20,
+  },
+  dateContainer: {
+    flex: 1,
+    flexDirection: "row",
+    borderLeftWidth: 1,
+    height: "100%",
+  },
+  dateContainerAndroid: {
+    height: 40,
+    paddingLeft: 20,
+    justifyContent: "center",
+  },
+  date: {
+    maxWidth: "85%",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  dateInput: {
+    flex: 1,
+    height: 150,
   },
 });
 export default InputDate;
